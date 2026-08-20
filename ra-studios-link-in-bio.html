@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RaStudios — Link in Bio</title>
+
+  <!-- Google Fonts: Playfair Display + Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    /* ============================================================
+       GLOBAL RESET & BASE STYLES
+    ============================================================ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --glass-bg: rgba(255, 255, 255, 0.08);
+      --glass-border: rgba(255, 255, 255, 0.15);
+      --glass-shadow: rgba(0, 0, 0, 0.35);
+      --text-primary: #f5f3f0;
+      --text-secondary: rgba(245, 243, 240, 0.7);
+      --text-muted: rgba(245, 243, 240, 0.45);
+      --accent: #c9a96e; /* Premium gold/amber */
+      --accent-glow: rgba(201, 169, 110, 0.35);
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body: 'Inter', system-ui, sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: var(--font-body);
+      color: var(--text-primary);
+      background: #0b0814;
+      overflow-x: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+    }
+
+    /* ============================================================
+       ANIMATED GRADIENT BACKGROUND
+    ============================================================ */
+    .bg-gradient {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background: linear-gradient(
+        135deg,
+        #0b0814 0%,
+        #1a0f2e 25%,
+        #2d1b4e 50%,
+        #3a1a5a 70%,
+        #0f0a18 100%
+      );
+      background-size: 400% 400%;
+      animation: gradientShift 25s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Soft radial glow blobs */
+    .glow-orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.28;
+      z-index: -1;
+      pointer-events: none;
+    }
+    .glow-orb-1 {
+      width: 600px; height: 600px;
+      top: -15%; left: -10%;
+      background: radial-gradient(circle, rgba(201, 169, 110, 0.5) 0%, transparent 70%);
+      animation: floatOrb 20s ease-in-out infinite alternate;
+    }
+    .glow-orb-2 {
+      width: 500px; height: 500px;
+      bottom: -20%; right: -10%;
+      background: radial-gradient(circle, rgba(130, 90, 160, 0.5) 0%, transparent 70%);
+      animation: floatOrb 25s ease-in-out infinite alternate-reverse;
+    }
+    .glow-orb-3 {
+      width: 350px; height: 350px;
+      top: 40%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(circle, rgba(201, 169, 110, 0.25) 0%, transparent 70%);
+      animation: floatOrb 18s ease-in-out infinite alternate;
+    }
+
+    @keyframes floatOrb {
+      from { transform: translate(0, 0) scale(1); }
+      to   { transform: translate(40px, -30px) scale(1.1); }
+    }
+
+    /* ============================================================
+       GLASS CARD LAYOUT
+    ============================================================ */
+    .container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 420px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 28px;
+    }
+
+    /* ============================================================
+       PROFILE IMAGE
+       ---> PASTE YOUR PROFILE PICTURE URL BELOW <---
+    ============================================================ */
+    .avatar-wrap {
+      position: relative;
+      width: 148px;
+      height: 148px;
+    }
+    .avatar-wrap::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #8b6fa3, var(--accent));
+      background-size: 200% 200%;
+      animation: shimmerBorder 4s ease infinite;
+      z-index: -1;
+    }
+    @keyframes shimmerBorder {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .avatar-wrap img {
+      width: 148px;
+      height: 148px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid rgba(255,255,255,0.15);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.08) inset;
+      display: block;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    .avatar-wrap:hover img {
+      transform: scale(1.04) rotate(-2deg);
+      box-shadow: 0 16px 50px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.15) inset;
+    }
+
+    /* ============================================================
+       NAME & BIO
+    ============================================================ */
+    .info-block {
+      text-align: center;
+      animation: fadeUp 0.9s ease-out both;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .info-block h1 {
+      font-family: var(--font-display);
+      font-size: 2.1rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: var(--text-primary);
+      text-shadow: 0 2px 20px rgba(201, 169, 110, 0.25);
+    }
+    .info-block h1 .brand {
+      color: var(--accent);
+      font-style: italic;
+    }
+
+    .tagline {
+      margin-top: 6px;
+      font-size: 0.88rem;
+      font-weight: 300;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .bio {
+      margin-top: 14px;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      max-width: 340px;
+      animation: fadeUp 0.9s ease-out 0.15s both;
+    }
+
+    /* ============================================================
+       GLASS BUTTONS
+    ============================================================ */
+    .links {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      width: 100%;
+      animation: fadeUp 0.9s ease-out 0.3s both;
+    }
+
+    .glass-btn {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      width: 100%;
+      padding: 16px 28px;
+      border-radius: 16px;
+      border: 1px solid var(--glass-border);
+      background: var(--glass-bg);
+      backdrop-filter: blur(24px) saturate(140%);
+      -webkit-backdrop-filter: blur(24px) saturate(140%);
+      color: var(--text-primary);
+      text-decoration: none;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      box-shadow:
+        0 4px 24px rgba(0, 0, 0, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      transition: all 0.35s ease;
+      overflow: hidden;
+    }
+
+    /* Subtle inner shimmer line */
+    .glass-btn::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+      opacity: 0.6;
+    }
+
+    /* Hover glow ring */
+    .glass-btn:hover, .glass-btn:focus-visible {
+      transform: translateY(-3px) scale(1.01);
+      background: rgba(255, 255, 255, 0.14);
+      border-color: rgba(201, 169, 110, 0.35);
+      box-shadow:
+        0 8px 32px rgba(201, 169, 110, 0.2),
+        0 4px 20px rgba(0, 0, 0, 0.35),
+        inset 0 1px 0 rgba(255,255,255,0.12);
+      color: #fff;
+    }
+
+    /* Active press */
+    .glass-btn:active {
+      transform: translateY(0) scale(0.99);
+    }
+
+    /* Icon inside button */
+    .glass-btn i {
+      font-size: 1.05rem;
+      color: var(--accent);
+      transition: transform 0.3s ease, color 0.3s ease;
+    }
+    .glass-btn:hover i {
+      transform: translateX(2px);
+      color: #f0dca0;
+    }
+
+    /* Primary call-to-action styling for Download button */
+    .glass-btn.cta {
+      background: linear-gradient(135deg, rgba(201, 169, 110, 0.18), rgba(201, 169, 110, 0.08));
+      border-color: rgba(201, 169, 110, 0.3);
+    }
+    .glass-btn.cta:hover {
+      background: linear-gradient(135deg, rgba(201, 169, 110, 0.28), rgba(201, 169, 110, 0.14));
+      border-color: rgba(201, 169, 110, 0.6);
+      box-shadow: 0 8px 30px rgba(201, 169, 110, 0.25);
+    }
+
+    /* ============================================================
+       FOOTER SOCIAL ICONS
+    ============================================================ */
+    .footer {
+      margin-top: 6px;
+      display: flex;
+      gap: 14px;
+      animation: fadeUp 0.9s ease-out 0.45s both;
+    }
+    .social-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--glass-border);
+      background: var(--glass-bg);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      color: var(--text-secondary);
+      font-size: 1rem;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.06);
+    }
+    .social-icon:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+      transform: translateY(-4px) scale(1.08);
+      box-shadow: 0 6px 20px rgba(201, 169, 110, 0.2), inset 0 1px 0 rgba(255,255,255,0.1);
+    }
+
+    /* Small footer text */
+    .credit {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+      margin-top: 4px;
+      animation: fadeUp 0.9s ease-out 0.55s both;
+    }
+
+    /* ============================================================
+       RESPONSIVE ADJUSTMENTS
+    ============================================================ */
+    @media (max-width: 480px) {
+      .avatar-wrap { width: 126px; height: 126px; }
+      .avatar-wrap img { width: 126px; height: 126px; }
+      .info-block h1 { font-size: 1.85rem; }
+      .glass-btn { padding: 14px 22px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Animated background gradient -->
+  <div class="bg-gradient" aria-hidden="true"></div>
+
+  <!-- Glowing orbs -->
+  <div class="glow-orb glow-orb-1" aria-hidden="true"></div>
+  <div class="glow-orb glow-orb-2" aria-hidden="true"></div>
+  <div class="glow-orb glow-orb-3" aria-hidden="true"></div>
+
+  <main class="container" aria-label="Profile links">
+
+    <!-- PROFILE IMAGE
+         ============================================
+         REPLACE the 'src' URL below with your own
+         profile picture (or keep the local path).
+         Example: src="https://i.imgur.com/yourpic.jpg"
+         ============================================ -->
+    <a href="#" class="avatar-wrap" aria-label="RaStudios profile">
+      <!-- Local image path → change to your URL -->
+      <img src="logo.png" alt="RaStudios profile picture" loading="eager">
+    </a>
+
+    <!-- NAME & BIO -->
+    <section class="info-block">
+      <h1>RaStudios</h1>
+      <p class="tagline">Creative Studio & Digital Design</p>
+      <p class="bio">
+        Building premium digital experiences, sleek interfaces, and memorable brand identities. Welcome to my corner of the web.
+      </p>
+      <p style="margin-top:8px; font-size:0.82rem; color:var(--accent); letter-spacing:0.03em;">
+        <i class="fa-solid fa-envelope" style="margin-right:6px;"></i>contact@rastudios.site
+      </p>
+    </section>
+
+    <!-- PRIMARY LINKS -->
+    <nav class="links" aria-label="Social links">
+
+      <!-- Link 1: Website -->
+      <a href="https://rastudios.site" class="glass-btn" target="_blank" rel="noopener noreferrer" aria-label="Visit RaStudios website">
+        <i class="fa-solid fa-globe"></i>
+        <span>Visit My Website</span>
+      </a>
+
+      <!-- Link 2: Download Free Resources
+           ============================================
+           PASTE YOUR GOOGLE DRIVE LINK inside 'href' below
+           ============================================ -->
+      <a href="downloads.html" class="glass-btn cta" aria-label="Download free resources">
+        <i class="fa-solid fa-cloud-arrow-down"></i>
+        <span>Download Free Resources</span>
+      </a>
+
+      <!-- Link 3: Portfolio / Projects -->
+      <a href="#" class="glass-btn" aria-label="View portfolio">
+        <i class="fa-solid fa-briefcase"></i>
+        <span>Explore My Work</span>
+      </a>
+    </nav>
+
+    <!-- FOOTER SOCIAL ICONS
+         ============================================
+         PASTE YOUR SOCIAL PROFILE URLs inside each
+         'href' attribute below.
+         ============================================ -->
+    <footer class="footer" aria-label="Social media links">
+      <a href="mailto:contact@rastudios.site" class="social-icon" aria-label="Email" title="Email"><i class="fa-solid fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/adilhassan-ra" class="social-icon" aria-label="LinkedIn" title="LinkedIn" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-linkedin-in"></i></a>
+      <a href="https://www.instagram.com/officialrastudios?igsh=ODdpNzNpa2ViaG13" class="social-icon" aria-label="Instagram" title="Instagram" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-instagram"></i></a>
+      <a href="https://youtube.com/@ra-studios001?si=7vkC2tr_YUCyclou" class="social-icon" aria-label="YouTube" title="YouTube" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-youtube"></i></a>
+    </footer>
+
+    <p class="credit">RaStudios &copy; 2026</p>
+
+  </main>
+
+</body>
+</html>

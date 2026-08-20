@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free Resource Library — RaStudios</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --glass-bg: rgba(255,255,255,0.055);
+      --glass-border: rgba(255,255,255,0.1);
+      --text-primary: #f5f3f0;
+      --text-secondary: rgba(245,243,240,0.65);
+      --text-muted: rgba(245,243,240,0.35);
+      --accent: #c9a96e;
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body: 'Inter', system-ui, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      min-height: 100vh;
+      font-family: var(--font-body);
+      color: var(--text-primary);
+      background: #0b0814;
+      overflow-x: hidden;
+      padding: 28px 16px 80px;
+    }
+
+    /* Animated gradient background */
+    .bg-gradient {
+      position: fixed; inset: 0; z-index: -2;
+      background: linear-gradient(135deg, #06030a 0%, #12082e 30%, #1e0f3a 55%, #2a1548 75%, #080518 100%);
+      background-size: 400% 400%;
+      animation: gradientShift 30s ease infinite;
+    }
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Glowing orbs */
+    .glow-orb {
+      position: fixed; border-radius: 50%; filter: blur(130px); opacity: 0.22; z-index: -1; pointer-events: none;
+    }
+    .glow-orb-1 { width: 500px; height: 500px; top: -12%; left: -8%; background: radial-gradient(circle, rgba(201,169,110,0.55) 0%, transparent 70%); animation: floatOrb 22s ease-in-out infinite alternate; }
+    .glow-orb-2 { width: 450px; height: 450px; bottom: -15%; right: -6%; background: radial-gradient(circle, rgba(140,100,180,0.45) 0%, transparent 70%); animation: floatOrb 28s ease-in-out infinite alternate-reverse; }
+    .glow-orb-3 { width: 300px; height: 300px; top: 35%; left: 55%; transform: translate(-50%, -50%); background: radial-gradient(circle, rgba(201,169,110,0.2) 0%, transparent 70%); animation: floatOrb 20s ease-in-out infinite alternate; }
+    @keyframes floatOrb { from { transform: translate(0,0) scale(1); } to { transform: translate(35px,-25px) scale(1.08); } }
+
+    /* Header */
+    .header-wrap {
+      max-width: 1000px; margin: 0 auto 52px; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;
+    }
+    .header-wrap h1 {
+      font-family: var(--font-display); font-size: 2.4rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; color: var(--text-primary);
+      text-shadow: 0 4px 30px rgba(201,169,110,0.2);
+    }
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 8px; padding: 10px 22px; border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); backdrop-filter: blur(16px);
+      color: var(--text-primary); text-decoration: none; font-weight: 500; font-size: 0.85rem; letter-spacing: 0.02em;
+      transition: all 0.3s ease; box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+    }
+    .back-btn:hover {
+      background: rgba(255,255,255,0.1); border-color: rgba(201,169,110,0.35); transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(201,169,110,0.15);
+    }
+
+    /* Grid */
+    .library-grid {
+      max-width: 860px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px;
+    }
+
+    /* ===========================================
+       RESOURCE CARD — Modern Professional Design
+       --> COPY THIS BLOCK TO ADD A NEW FILE <--
+    =========================================== */
+    .resource-card {
+      position: relative;
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: linear-gradient(170deg, rgba(255,255,255,0.035) 0%, rgba(255,255,255,0.015) 100%);
+      backdrop-filter: blur(30px) saturate(130%);
+      -webkit-backdrop-filter: blur(30px) saturate(130%);
+      padding: 0;
+      overflow: hidden;
+      transition: all 0.45s cubic-bezier(0.23, 1, 0.32, 1);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.2);
+      display: flex; flex-direction: column;
+    }
+
+    /* Subtle top accent line */
+    .resource-card::after {
+      content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px;
+      background: linear-gradient(90deg, transparent, rgba(201,169,110,0.7), rgba(201,169,110,0.2), transparent);
+      opacity: 0.7;
+      transition: opacity 0.4s ease;
+    }
+
+    /* Card inner layout */
+    .card-inner {
+      padding: 20px 20px 18px;
+      display: flex; flex-direction: column; flex-grow: 1;
+    }
+
+    /* Category pill */
+    .card-tag {
+      display: inline-flex; align-items: center; gap: 6px; align-self: flex-start;
+      padding: 4px 10px; border-radius: 50px;
+      background: rgba(201,169,110,0.08); border: 1px solid rgba(201,169,110,0.18);
+      color: var(--accent); font-size: 0.65rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .card-tag .dot {
+      width: 5px; height: 5px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 6px var(--accent-glow);
+    }
+
+    /* Card title */
+    .card-title {
+      font-family: var(--font-display); font-size: 1.05rem; font-weight: 600; line-height: 1.2;
+      color: var(--text-primary); margin-bottom: 8px; letter-spacing: -0.01em;
+    }
+
+    /* Card description */
+    .card-desc {
+      font-size: 0.8rem; line-height: 1.5; color: var(--text-secondary); flex-grow: 1;
+    }
+
+    /* Download button */
+    .download-btn {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 10px 16px; border-radius: 10px; border: 1px solid rgba(201,169,110,0.22);
+      background: linear-gradient(135deg, rgba(201,169,110,0.14), rgba(201,169,110,0.06));
+      color: var(--text-primary); text-decoration: none; font-weight: 500; font-size: 0.82rem; letter-spacing: 0.01em;
+      transition: all 0.35s ease; box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+    }
+    .download-btn:hover {
+      background: linear-gradient(135deg, rgba(201,169,110,0.25), rgba(201,169,110,0.12));
+      border-color: rgba(201,169,110,0.45);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(201,169,110,0.18), 0 4px 12px rgba(0,0,0,0.2);
+    }
+    .download-btn i {
+      font-size: 0.9rem; color: var(--accent);
+      transition: transform 0.35s ease, color 0.35s ease;
+    }
+    .download-btn:hover i {
+      transform: translateX(3px); color: #e8c992;
+    }
+
+    /* Card hover */
+    .resource-card:hover {
+      transform: translateY(-10px);
+      border-color: rgba(201,169,110,0.25);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.4), 0 12px 30px rgba(201,169,110,0.1);
+    }
+    .resource-card:hover::after {
+      opacity: 1;
+      background: linear-gradient(90deg, transparent, rgba(201,169,110,0.9), rgba(201,169,110,0.3), transparent);
+    }
+
+    /* Footer */
+    .page-footer {
+      max-width: 1000px; margin: 72px auto 0; text-align: center;
+      color: var(--text-muted); font-size: 0.78rem; letter-spacing: 0.06em;
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .header-wrap h1 { font-size: 1.7rem; }
+      .library-grid { grid-template-columns: 1fr; gap: 16px; }
+      .card-inner { padding: 16px 16px 14px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="bg-gradient" aria-hidden="true"></div>
+  <div class="glow-orb glow-orb-1" aria-hidden="true"></div>
+  <div class="glow-orb glow-orb-2" aria-hidden="true"></div>
+  <div class="glow-orb glow-orb-3" aria-hidden="true"></div>
+
+  <header class="header-wrap">
+    <a href="ra-studios-link-in-bio.html" class="back-btn" aria-label="Back to main page">
+      <i class="fa-solid fa-arrow-left"></i> Back to Main Page
+    </a>
+    <h1>Free Resource Library</h1>
+  </header>
+
+  <main class="library-grid" aria-label="Resource library">
+
+    <!-- =========================================================
+         COPY THIS BLOCK TO ADD A NEW FILE CARD
+         Duplicate the entire .resource-card below
+         and edit the tag, title, description, and link.
+    ========================================================= -->
+
+    <!-- CARD 1 -->
+    <article class="resource-card">
+      <div class="card-inner">
+        <span class="card-tag"><span class="dot"></span> Template</span>
+        <h2 class="card-title">Modern Portfolio Template</h2>
+        <p class="card-desc">Clean, responsive HTML/CSS starter with glassmorphism design, smooth animations, and a premium layout ready for your content.</p>
+        <a href="#" class="download-btn" aria-label="Download Modern Portfolio Template">
+          <i class="fa-solid fa-download"></i> Download File
+        </a>
+      </div>
+    </article>
+
+    <!-- CARD 2 -->
+    <article class="resource-card">
+      <div class="card-inner">
+        <span class="card-tag"><span class="dot"></span> Design</span>
+        <h2 class="card-title">Brand Identity Kit</h2>
+        <p class="card-desc">Logo packs, curated color palettes, typography guides, and social media templates for a cohesive premium brand.</p>
+        <a href="#" class="download-btn" aria-label="Download Brand Identity Kit">
+          <i class="fa-solid fa-download"></i> Download File
+        </a>
+      </div>
+    </article>
+
+    <!-- CARD 3 -->
+    <article class="resource-card">
+      <div class="card-inner">
+        <span class="card-tag"><span class="dot"></span> Code</span>
+        <h2 class="card-title">Glassmorphism CSS Components</h2>
+        <p class="card-desc">Reusable glass-card, glass-button, and glass-nav components. Drop them into any project instantly.</p>
+        <a href="#" class="download-btn" aria-label="Download Glassmorphism CSS Components">
+          <i class="fa-solid fa-download"></i> Download File
+        </a>
+      </div>
+    </article>
+
+    <!-- CARD 4: DOCKER FILE -->
+    <article class="resource-card">
+      <div class="card-inner">
+        <span class="card-tag"><span class="dot"></span> PDF Guide</span>
+        <h2 class="card-title">Docker: What It Is & How It Works</h2>
+        <p class="card-desc">A complete beginner's PDF guide explaining Docker containers, images, and workflows — from first install to production deployment.</p>
+        <a href="https://drive.google.com/file/d/1yUvwCErtubOBH9d2xQVLL0Fu3_scv8wx/view?usp=sharing" class="download-btn" target="_blank" rel="noopener noreferrer" aria-label="Download Docker File">
+          <i class="fa-solid fa-download"></i> Download File
+        </a>
+      </div>
+    </article>
+
+    <!-- =========================================================
+         END COPY BLOCK
+         To add a new file: duplicate the <article> ... </article>
+         block above, then update tag, title, desc, and href.
+    ========================================================= -->
+
+  </main>
+
+  <footer class="page-footer">
+    RaStudios &copy; 2026
+  </footer>
+
+</body>
+</html>
