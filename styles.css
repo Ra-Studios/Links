@@ -31,6 +31,7 @@ h1,h2,h3,p{margin:0}h1,h2,h3{font-family:var(--display);font-weight:500}::select
 /* The resource shelf uses the same colors, spacing, and type. */
 .back-link{display:inline-flex;align-items:center;gap:9px;min-height:44px;font-size:12px}.back-link .icon{width:17px;height:17px}
 .library-intro{padding:26px 0 36px}.library-intro .eyebrow{color:#787081;margin-bottom:16px}.library-intro h1{font-size:clamp(42px,7vw,68px);letter-spacing:-3.5px;line-height:1.03}.library-intro>p:last-child{color:var(--muted);margin-top:18px;font-size:14px;line-height:1.75}
+.resource-list{display:grid;gap:24px}
 .resource-card{display:grid;grid-template-columns:1fr 1.15fr;padding:10px;background:var(--paper);border:1px solid white;border-radius:25px;box-shadow:0 20px 60px -35px #3a265b38;animation:arrive .65s ease both}
 .resource-art{min-width:0;background:#dbe5c9;color:#394931;border-radius:17px;padding:28px;display:flex;flex-direction:column;justify-content:space-between;min-height:350px;position:relative;overflow:hidden}
 .art-top{display:flex;justify-content:space-between;align-items:center;font-size:9px;font-weight:600;letter-spacing:1.2px}.art-top>span:last-child{border:1px solid #a7b697;border-radius:50%;padding:8px;letter-spacing:0}
